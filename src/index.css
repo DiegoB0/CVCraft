@@ -1,0 +1,8 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Clases for the sign-in/sign-up form */
+.cl-internal-2ajog4 {
+	opacity: 0;
+}
