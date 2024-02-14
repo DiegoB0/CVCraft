@@ -14,7 +14,7 @@ function CurriculumsNew() {
 		},
 		{
 			number: 3,
-			title: 'Certificados',
+			title: 'Certificaciones',
 		},
 		{
 			number: 4,
