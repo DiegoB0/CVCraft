@@ -1,3 +1,10 @@
+import Layout from '@/layouts/Layout';
+import AuthLayout from '@/layouts/authLayout';
+import Curriculums from '@/pages/Curriculums';
+import CurriculumsNew from '@/pages/CurriculumsNew';
+import Home from '@/pages/Home';
+import NotFound from '@/pages/NotFound';
+import Welcome from '@/pages/Welcome';
 import {
 	RedirectToSignIn,
 	SignIn,
@@ -6,17 +13,12 @@ import {
 	SignedOut,
 } from '@clerk/clerk-react';
 import { Route, Routes } from 'react-router-dom';
-import Layout from './components/layouts/Layout';
-import AuthLayout from './components/layouts/authLayout';
-import Curriculums from './pages/Curriculums';
-import Home from './pages/Home';
-import NotFound from './pages/NotFound';
 
 function App() {
 	return (
 		<Routes>
 			<Route path="/" element={<AuthLayout />}>
-				<Route index element={<Home />} />
+				<Route index element={<Welcome />} />
 			</Route>
 			<Route path="/sign-in/*" element={<AuthLayout />}>
 				<Route
@@ -25,7 +27,7 @@ function App() {
 						<SignIn
 							routing="path"
 							path="/sign-in"
-							redirectUrl={'/curriculums'}
+							redirectUrl={'/home'}
 						></SignIn>
 					}
 				/>
@@ -37,8 +39,23 @@ function App() {
 						<SignUp
 							routing="path"
 							path="/sign-up"
-							redirectUrl={'/curriculums'}
+							redirectUrl={'/home'}
 						></SignUp>
+					}
+				/>
+			</Route>
+			<Route path="/home" element={<Layout />}>
+				<Route
+					index
+					element={
+						<>
+							<SignedIn>
+								<Home />
+							</SignedIn>
+							<SignedOut>
+								<RedirectToSignIn />
+							</SignedOut>
+						</>
 					}
 				/>
 			</Route>
@@ -49,6 +66,21 @@ function App() {
 						<>
 							<SignedIn>
 								<Curriculums />
+							</SignedIn>
+							<SignedOut>
+								<RedirectToSignIn />
+							</SignedOut>
+						</>
+					}
+				/>
+			</Route>
+			<Route path="/curriculums/new" element={<Layout />}>
+				<Route
+					index
+					element={
+						<>
+							<SignedIn>
+								<CurriculumsNew />
 							</SignedIn>
 							<SignedOut>
 								<RedirectToSignIn />

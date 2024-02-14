@@ -25,6 +25,12 @@ module.exports = {
 				accent: {
 					green: '#059669',
 					yellow: '#eab308',
+					amber: '#F59B0A',
+				},
+				custom: {
+					light: '#e7e5e4',
+					mate: '#d6d3d1',
+					gray: '#52525b',
 				},
 			},
 			keyframes: {

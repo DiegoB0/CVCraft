@@ -1,4 +1,4 @@
-import NavBar from '@/components/NavBar';
+import NavBar from '@/components/Header';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -10,24 +10,23 @@ function NotFound() {
 			<NavBar />
 			<main className="flex flex-grow w-full justify-center bg-base-900 items-center ">
 				<div className=" flex flex-col items-center justify-center mt-12">
-					<h1 className="flex align-items-center justify-center text-8xl font-extrabold uppercase text-stone-200">
+					<h1 className="flex align-items-center justify-center text-8xl font-extrabold uppercase text-custom-mate text-shadow">
 						404
 					</h1>
-					<h1 className="flex align-items-center justify-center text-3xl font-extrabold uppercase text-stone-200 mt-10">
+					<h1 className="flex align-items-center justify-center text-3xl font-extrabold uppercase text-custom-mate mt-10">
 						UPSS, ¿Te encuentras perdido?
 					</h1>
 
-					<div className="mt-20">
+					<div className="w-full mt-20 flex justify-center">
 						<button
-							className="relative inline-flex items-center justify-start px-6 py-3 overflow-hidden font-medium transition-all bg-amber-500 rounded-xl group"
-							onClick={() => navigate('/curriculums')}
+							className="relative inline-flex items-center justify-center px-6 py-3 text-lg font-medium tracking-tighter text-custom-light rounded-md group"
+							onClick={() => navigate('/home')}
 						>
-							<span className="absolute top-0 right-0 inline-block w-4 h-4 transition-all duration-500 ease-in-out bg-yellow-700 rounded group-hover:-mr-4 group-hover:-mt-4">
-								<span className="absolute top-0 right-0 w-5 h-5 rotate-45 translate-x-1/2 -translate-y-1/2 bg-stone-200"></span>
-							</span>
-							<span className="absolute bottom-0 left-0 w-full h-full transition-all duration-500 ease-in-out delay-200 -translate-x-full translate-y-full bg-yellow-600 rounded-2xl group-hover:mb-12 group-hover:translate-x-0"></span>
-							<span className="relative w-full text-left text-stone-200 transition-colors duration-200 ease-in-out group-hover:text-white font-bold">
-								Regresar al Inicio
+							<span className="absolute inset-0 w-full h-full mt-1 ml-1 transition-all duration-300 ease-in-out bg-accent-green rounded-md group-hover:mt-0 group-hover:ml-0"></span>
+							<span className="absolute inset-0 w-full h-full bg-custom-light rounded-md "></span>
+							<span className="absolute inset-0 w-full h-full transition-all duration-200 ease-in-out delay-100 bg-accent-green rounded-md opacity-0 group-hover:opacity-100 "></span>
+							<span className="relative text-accent-green transition-colors duration-200 ease-in-out delay-100 group-hover:text-custom-light font-bold">
+								REGRESAR AL INICIO
 							</span>
 						</button>
 					</div>
