@@ -13,6 +13,11 @@ import {
 	SignedOut,
 } from '@clerk/clerk-react';
 import { Route, Routes } from 'react-router-dom';
+import Board from './pages/Board';
+import Email from './pages/Email';
+import ExcelSheets from './pages/ExcelSheets';
+import ExcelSheetsNew from './pages/ExcelSheetsNew';
+import Teams from './pages/Team';
 
 function App() {
 	return (
@@ -89,6 +94,84 @@ function App() {
 					}
 				/>
 			</Route>
+			<Route path="/excelsheets" element={<Layout />}>
+				<Route
+					index
+					element={
+						<>
+							<SignedIn>
+								<ExcelSheets />
+							</SignedIn>
+							<SignedOut>
+								<RedirectToSignIn />
+							</SignedOut>
+						</>
+					}
+				/>
+			</Route>
+			<Route path="/excelsheets/new" element={<Layout />}>
+				<Route
+					index
+					element={
+						<>
+							<SignedIn>
+								<ExcelSheetsNew />
+							</SignedIn>
+							<SignedOut>
+								<RedirectToSignIn />
+							</SignedOut>
+						</>
+					}
+				/>
+			</Route>
+			<Route path="/team" element={<Layout />}>
+				<Route
+					index
+					element={
+						<>
+							<SignedIn>
+								<Teams />
+							</SignedIn>
+							<SignedOut>
+								<RedirectToSignIn />
+							</SignedOut>
+						</>
+					}
+				/>
+			</Route>
+
+			<Route path="/board/:id" element={<Layout />}>
+				<Route
+					index
+					element={
+						<>
+							<SignedIn>
+								<Board />
+							</SignedIn>
+							<SignedOut>
+								<RedirectToSignIn />
+							</SignedOut>
+						</>
+					}
+				/>
+			</Route>
+
+			<Route path="/email" element={<Layout />}>
+				<Route
+					index
+					element={
+						<>
+							<SignedIn>
+								<Email />
+							</SignedIn>
+							<SignedOut>
+								<RedirectToSignIn />
+							</SignedOut>
+						</>
+					}
+				/>
+			</Route>
+
 			<Route path="*" element={<NotFound />} />
 		</Routes>
 	);

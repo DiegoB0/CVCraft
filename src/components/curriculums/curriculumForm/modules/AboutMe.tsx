@@ -1,9 +1,3 @@
-import { setCurrentStep, updateFormData } from '@/features/stepSlice';
-import defaultImage from '@src/assets/default.svg';
-import React, { DragEvent, useRef, useState } from 'react';
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-
 import { Button } from '@/components/ui/button';
 import {
 	Card,
@@ -14,35 +8,51 @@ import {
 } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { setCurrentStep, updateFormData } from '@/features/stepSlice';
+import aboutMeSchema from '@/schemas/about_me';
 import { RootState } from '@/store';
+import { zodResolver } from '@hookform/resolvers/zod';
+import defaultImage from '@src/assets/default.svg';
+import React, { DragEvent, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { FaLongArrowAltRight } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+interface FormData {
+	name: string;
+	last_names: string;
+	occupation: string;
+	age: number;
+	images: FileList;
+}
 
 function AboutMe() {
-	//Redux state
+	//Redux
 	const currentStep = useSelector(
 		(store: RootState) => store.steps.currentStep
 	);
 	const formData = useSelector((store: RootState) => store.steps.formData);
 	const dispatch = useDispatch();
 
-	async function processData(data: FormData) {
-		console.log('Processing data:', data);
-		console.log(currentStep);
-		dispatch(updateFormData(data));
-		dispatch(setCurrentStep(currentStep + 1));
-	}
-
-	//React hook form
-	const { handleSubmit } = useForm<FormData>({
+	const {
+		register,
+		handleSubmit,
+		formState: { errors },
+	} = useForm<FormData>({
 		defaultValues: {
 			...formData,
-		},
+		} as FormData,
+		resolver: zodResolver(aboutMeSchema),
 	});
 
-	//Routing state
+	const ageField = register('age', {
+		setValueAs: (value) => parseInt(value, 10), // Parse the value as an integer
+	});
+
+	//Routing
 	const navigate = useNavigate();
 
 	//State of the image
@@ -116,6 +126,21 @@ function AboutMe() {
 		}
 	};
 
+	const onSubmit = async (data: FormData) => {
+		try {
+			// Dispatch an action to update form data in Redux store
+			console.log(data);
+			const someshit = dispatch(updateFormData(data));
+			console.log(someshit);
+
+			// Increment current step in Redux store
+			dispatch(setCurrentStep(currentStep + 1));
+		} catch (error) {
+			console.error('Error submitting form', error);
+			// Handle error, show toast message, etc.
+		}
+	};
+
 	return (
 		<Card className="w-[350px] xl:w-[650px] md:w-[450px] lg:w-[500px] bg-base-800 border-none h-full">
 			<CardHeader>
@@ -127,7 +152,7 @@ function AboutMe() {
 				</CardDescription>
 			</CardHeader>
 			<CardContent>
-				<form onSubmit={handleSubmit(processData)}>
+				<form onSubmit={handleSubmit(onSubmit)}>
 					<div className="grid w-full items-center gap-4">
 						<div className="flex flex-row space-x-4">
 							<div className="flex flex-col space-y-1.5 w-full">
@@ -138,7 +163,11 @@ function AboutMe() {
 									id="name"
 									placeholder="Escribe tu nombre"
 									className="border-custom-gray text-custom-mate focus:border-accent-yellow"
+									{...register('name')}
 								/>
+								{errors.name?.message && (
+									<p className="text-red-400 text-sm">{errors.name?.message}</p>
+								)}
 							</div>
 							<div className="flex flex-col space-y-1.5 w-full">
 								<Label htmlFor="last_names" className="text-custom-mate">
@@ -148,7 +177,13 @@ function AboutMe() {
 									id="last_names"
 									placeholder="Escribe tus apellidos"
 									className="border-custom-gray text-custom-mate focus:border-accent-yellow"
+									{...register('last_names')}
 								/>
+								{errors.last_names?.message && (
+									<p className="text-red-400 text-sm">
+										{errors.last_names?.message}
+									</p>
+								)}
 							</div>
 						</div>
 						<div className="flex flex-row space-x-4">
@@ -160,7 +195,13 @@ function AboutMe() {
 									id="occupation"
 									placeholder="A que te dedicas"
 									className="border-custom-gray text-custom-mate focus:border-accent-yellow"
+									{...register('occupation')}
 								/>
+								{errors.occupation?.message && (
+									<p className="text-red-400 text-sm">
+										{errors.occupation?.message}
+									</p>
+								)}
 							</div>
 							<div className="flex flex-col space-y-1.5 w-full">
 								<Label htmlFor="age" className="text-custom-mate">
@@ -170,7 +211,12 @@ function AboutMe() {
 									id="age"
 									placeholder="Escribe tu edad"
 									className="border-custom-gray text-custom-mate focus:border-accent-yellow"
+									{...ageField}
+									{...register('age')}
 								/>
+								{errors.age?.message && (
+									<p className="text-red-400 text-sm">{errors.age?.message}</p>
+								)}
 							</div>
 						</div>
 						<div className="flex flex-col space-y-1.5">
@@ -182,6 +228,7 @@ function AboutMe() {
 								id="images"
 								accept=".png, .jpg, .jpeg, .svg"
 								className="hidden"
+								{...register('images')}
 								ref={inputRef}
 								onChange={handleImageChange}
 								onDragOver={handleDragOver}
@@ -189,6 +236,9 @@ function AboutMe() {
 								onDragLeave={handleDragLeave}
 								onDrop={handleDrop}
 							/>
+							{errors.images?.message && (
+								<p className="text-red-400 text-sm">{errors.images?.message}</p>
+							)}
 							<div
 								className={`flex flex-col items-center border border-dashed border-custom-gray rounded-lg p-5 hover:border-solid hover:border-custom-mate hover:bg-custom-mate transition-colors duration-300${
 									isDraggingOver

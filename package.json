@@ -53,8 +53,10 @@
     "embla-carousel-react": "^8.0.0-rc22",
     "gsap": "^3.12.5",
     "react": "^18.2.0",
+    "react-beautiful-dnd": "^13.1.1",
     "react-day-picker": "^8.10.0",
     "react-dom": "^18.2.0",
+    "react-dropdown": "^1.11.0",
     "react-hook-form": "^7.50.0",
     "react-icons": "^5.0.1",
     "react-redux": "^9.1.0",
@@ -63,9 +65,11 @@
     "react-toastify": "^10.0.4",
     "react-ts-typewriter": "^0.1.8-b",
     "sonner": "^1.4.0",
+    "sweetalert2": "^11.10.6",
     "tailwind-merge": "^2.2.1",
     "tailwindcss-animate": "^1.0.7",
     "vaul": "^0.9.0",
+    "xlsx": "^0.18.5",
     "zod": "^3.22.4"
   },
   "devDependencies": {

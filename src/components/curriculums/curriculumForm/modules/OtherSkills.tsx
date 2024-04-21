@@ -14,16 +14,11 @@ import {
 } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import {
-	Select,
-	SelectContent,
-	SelectItem,
-	SelectTrigger,
-	SelectValue,
-} from '@/components/ui/select';
+
 import { RootState } from '@/store';
 import { useForm } from 'react-hook-form';
 
+import { Textarea } from '@/components/ui/textarea';
 import { FaLongArrowAltLeft } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -149,67 +144,21 @@ function OtherSkills() {
 								</Label>
 								<Input
 									id="name"
-									placeholder="Escribe tu nombre"
-									className="border-custom-gray text-custom-mate focus:border-accent-yellow"
-								/>
-							</div>
-							<div className="flex flex-col space-y-1.5 w-full">
-								<Label htmlFor="last_names" className="text-custom-mate">
-									Apellidos
-								</Label>
-								<Input
-									id="last_names"
-									placeholder="Escribe tus apellidos"
+									placeholder="Escribe el nombre de la habilidad"
 									className="border-custom-gray text-custom-mate focus:border-accent-yellow"
 								/>
 							</div>
 						</div>
 						<div className="flex flex-row space-x-4">
 							<div className="flex flex-col space-y-1.5 w-full">
-								<Label htmlFor="occupation" className="text-custom-mate">
-									Ocupacion
+								<Label htmlFor="last_names" className="text-custom-mate">
+									Descripcion
 								</Label>
-								<Input
+								<Textarea
 									id="occupation"
-									placeholder="A que te dedicas"
-									className="border-custom-gray text-custom-mate focus:border-accent-yellow"
+									placeholder="Escribe una breve descripcion de la habilidad"
+									className="border-custom-gray text-custom-mate focus:border-accent-yellow h-24 resize-none overflow-auto"
 								/>
-							</div>
-							<div className="flex flex-col space-y-1.5 w-full">
-								<Label htmlFor="age" className="text-custom-mate ">
-									Edad
-								</Label>
-								<Select>
-									<SelectTrigger
-										id="age"
-										className="border-custom-gray text-custom-gray focus:border-accent-yellow"
-									>
-										<SelectValue placeholder="Select" />
-									</SelectTrigger>
-									<SelectContent
-										position="popper"
-										className="border-custom-gray text-custom-mate bg-base-900"
-									>
-										<SelectItem value="below_20" className="hover:bg-base-800">
-											Menor de 20
-										</SelectItem>
-										<SelectItem value="21_25" className="hover:bg-base-800">
-											21 - 25 años
-										</SelectItem>
-										<SelectItem value="26_30" className="hover:bg-base-800">
-											26 - 30 años
-										</SelectItem>
-										<SelectItem value="31_35" className="hover:bg-base-800">
-											31 - 35 años
-										</SelectItem>
-										<SelectItem value="35_40" className="hover:bg-base-800">
-											35 - 40 años
-										</SelectItem>
-										<SelectItem value="above_40" className="hover:bg-base-800">
-											Mayor a 40 años
-										</SelectItem>
-									</SelectContent>
-								</Select>
 							</div>
 						</div>
 						<div className="flex flex-col space-y-1.5">
@@ -242,7 +191,7 @@ function OtherSkills() {
 							>
 								<h1 className="text-custom-gray mb-2">
 									{' '}
-									Toca o arrastra una imagen aqui
+									Arrastra el documento de certificacion aqui
 								</h1>
 								{image ? (
 									<img src={image} className="w-20 h-20 m-auto rounded-full" />

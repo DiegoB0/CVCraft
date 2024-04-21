@@ -14,13 +14,7 @@ import {
 } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import {
-	Select,
-	SelectContent,
-	SelectItem,
-	SelectTrigger,
-	SelectValue,
-} from '@/components/ui/select';
+
 import { RootState } from '@/store';
 import { useForm } from 'react-hook-form';
 import { FaLongArrowAltLeft, FaLongArrowAltRight } from 'react-icons/fa';
@@ -137,17 +131,17 @@ function Language() {
 						<div className="flex flex-row space-x-4">
 							<div className="flex flex-col space-y-1.5 w-full">
 								<Label htmlFor="name" className="text-custom-mate">
-									Nombre
+									Idioma
 								</Label>
 								<Input
 									id="name"
-									placeholder="Escribe tu nombre"
+									placeholder="Escriba el idioma"
 									className="border-custom-gray text-custom-mate focus:border-accent-yellow"
 								/>
 							</div>
 							<div className="flex flex-col space-y-1.5 w-full">
 								<Label htmlFor="last_names" className="text-custom-mate">
-									Apellidos
+									Escriba el nivel
 								</Label>
 								<Input
 									id="last_names"
@@ -159,54 +153,18 @@ function Language() {
 						<div className="flex flex-row space-x-4">
 							<div className="flex flex-col space-y-1.5 w-full">
 								<Label htmlFor="occupation" className="text-custom-mate">
-									Ocupacion
+									Insitucion
 								</Label>
 								<Input
 									id="occupation"
-									placeholder="A que te dedicas"
+									placeholder="Escriba el lugar donde se certifico"
 									className="border-custom-gray text-custom-mate focus:border-accent-yellow"
 								/>
-							</div>
-							<div className="flex flex-col space-y-1.5 w-full">
-								<Label htmlFor="age" className="text-custom-mate ">
-									Edad
-								</Label>
-								<Select>
-									<SelectTrigger
-										id="age"
-										className="border-custom-gray text-custom-gray focus:border-accent-yellow"
-									>
-										<SelectValue placeholder="Select" />
-									</SelectTrigger>
-									<SelectContent
-										position="popper"
-										className="border-custom-gray text-custom-mate bg-base-900"
-									>
-										<SelectItem value="below_20" className="hover:bg-base-800">
-											Menor de 20
-										</SelectItem>
-										<SelectItem value="21_25" className="hover:bg-base-800">
-											21 - 25 años
-										</SelectItem>
-										<SelectItem value="26_30" className="hover:bg-base-800">
-											26 - 30 años
-										</SelectItem>
-										<SelectItem value="31_35" className="hover:bg-base-800">
-											31 - 35 años
-										</SelectItem>
-										<SelectItem value="35_40" className="hover:bg-base-800">
-											35 - 40 años
-										</SelectItem>
-										<SelectItem value="above_40" className="hover:bg-base-800">
-											Mayor a 40 años
-										</SelectItem>
-									</SelectContent>
-								</Select>
 							</div>
 						</div>
 						<div className="flex flex-col space-y-1.5">
 							<Label htmlFor="images" className="text-custom-mate">
-								Foto de perfil
+								Arrastra el documento de certificacion aqui
 							</Label>
 							<Input
 								type="file"
@@ -234,7 +192,7 @@ function Language() {
 							>
 								<h1 className="text-custom-gray mb-2">
 									{' '}
-									Toca o arrastra una imagen aqui
+									Arrastra el documento de certificacion aqui
 								</h1>
 								{image ? (
 									<img src={image} className="w-20 h-20 m-auto rounded-full" />
