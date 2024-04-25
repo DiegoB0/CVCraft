@@ -7,14 +7,13 @@ import {
 	CardHeader,
 	CardTitle,
 } from '@/components/ui/card';
+
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import {
 	Table,
 	TableBody,
-	TableCaption,
 	TableCell,
-	TableFooter,
 	TableHead,
 	TableHeader,
 	TableRow,
@@ -29,52 +28,6 @@ interface User {
 	username: string;
 	email_address: string;
 }
-
-//Testing
-const invoices = [
-	{
-		invoice: 'INV001',
-		paymentStatus: 'Paid',
-		totalAmount: '$250.00',
-		paymentMethod: 'Credit Card',
-	},
-	{
-		invoice: 'INV002',
-		paymentStatus: 'Pending',
-		totalAmount: '$150.00',
-		paymentMethod: 'PayPal',
-	},
-	{
-		invoice: 'INV003',
-		paymentStatus: 'Unpaid',
-		totalAmount: '$350.00',
-		paymentMethod: 'Bank Transfer',
-	},
-	{
-		invoice: 'INV004',
-		paymentStatus: 'Paid',
-		totalAmount: '$450.00',
-		paymentMethod: 'Credit Card',
-	},
-	{
-		invoice: 'INV005',
-		paymentStatus: 'Paid',
-		totalAmount: '$550.00',
-		paymentMethod: 'PayPal',
-	},
-	{
-		invoice: 'INV006',
-		paymentStatus: 'Pending',
-		totalAmount: '$200.00',
-		paymentMethod: 'Bank Transfer',
-	},
-	{
-		invoice: 'INV007',
-		paymentStatus: 'Unpaid',
-		totalAmount: '$300.00',
-		paymentMethod: 'Credit Card',
-	},
-];
 
 function Email() {
 	const [users, setUsers] = useState<User[]>([]);
@@ -98,9 +51,17 @@ function Email() {
 
 	const handleSelectUser = (userId: string) => {
 		setSelectedUserIds((prevSelected) => {
-			const updatedSelection = [...prevSelected, userId];
-			console.log(updatedSelection); // Check if the state updates here
-			return updatedSelection;
+			if (prevSelected.includes(userId)) {
+				// If the user is already selected, remove it from the selection
+				const updatedSelection = prevSelected.filter((id) => id !== userId);
+				console.log(updatedSelection);
+				return updatedSelection;
+			} else {
+				// If the user is not selected, add it to the selection
+				const updatedSelection = [...prevSelected, userId];
+				console.log(updatedSelection);
+				return updatedSelection;
+			}
 		});
 	};
 
@@ -127,6 +88,18 @@ function Email() {
 			});
 			if (response.ok) {
 				console.log('Message sent successfully');
+				console.log('Before clearing:');
+				console.log('Message:', message);
+				console.log('Image:', image);
+
+				setMessage('');
+				setImage(null); // Clear the image input
+				const form = document.getElementById(
+					'emailForm'
+				) as HTMLFormElement | null;
+				if (form) {
+					form.reset();
+				}
 			} else {
 				console.error('Error sending message:', response.statusText);
 			}
@@ -144,56 +117,57 @@ function Email() {
 			<div className="flex justify-center">
 				<Card className="w-[600px] bg-base-800">
 					<CardHeader>
-						<CardTitle className="text-custom-light">Create project</CardTitle>
+						<CardTitle className="text-custom-light">Send Emails</CardTitle>
 						<CardDescription>
-							Deploy your new project in one-click.
+							Send custom emails to all the users
 						</CardDescription>
 					</CardHeader>
 					<CardContent>
-						<form>
-							<div className="flex flex-col space-y-1.5">
-								<Label htmlFor="framework" className="text-custom-mate">
-									Users
-								</Label>
-								<Table>
-									<TableCaption>A list of your recent invoices.</TableCaption>
-									<TableHeader>
-										<TableRow>
-											<TableHead className="w-[100px]">Invoice</TableHead>
-											<TableHead>Status</TableHead>
-											<TableHead>Method</TableHead>
-											<TableHead className="text-right">Amount</TableHead>
+						<div className="flex flex-col space-y-1.5">
+							<Table>
+								<TableHeader>
+									<TableRow>
+										<TableHead className="w-[100px]">Select</TableHead>
+										<TableHead>Username</TableHead>
+										<TableHead>Full Name</TableHead>
+										<TableHead className="text-right">Email Address</TableHead>
+									</TableRow>
+								</TableHeader>
+								<TableBody>
+									{users.map((user) => (
+										<TableRow
+											key={user._id}
+											className="text-custom-mate hover:text-base-900"
+										>
+											<TableCell className="font-medium">
+												<Input
+													type="checkbox"
+													className="h-4 w-4 text-custom-mate checked:text-custom-mate"
+													onChange={() => handleSelectUser(user.email_address)}
+												/>
+											</TableCell>
+											<TableCell>{user.username}</TableCell>
+											<TableCell>
+												{user.first_name} {user.last_name}
+											</TableCell>
+											<TableCell className="text-right">
+												{user.email_address}
+											</TableCell>
 										</TableRow>
-									</TableHeader>
-									<TableBody>
-										{invoices.map((invoice) => (
-											<TableRow key={invoice.invoice}>
-												<TableCell className="font-medium">
-													{invoice.invoice}
-												</TableCell>
-												<TableCell>{invoice.paymentStatus}</TableCell>
-												<TableCell>{invoice.paymentMethod}</TableCell>
-												<TableCell className="text-right">
-													{invoice.totalAmount}
-												</TableCell>
-											</TableRow>
-										))}
-									</TableBody>
-									<TableFooter>
-										<TableRow>
-											<TableCell colSpan={3}>Total</TableCell>
-											<TableCell className="text-right">$2,500.00</TableCell>
-										</TableRow>
-									</TableFooter>
-								</Table>
-							</div>
-							<div className="grid w-full items-center gap-4 mt-2">
+									))}
+								</TableBody>
+							</Table>
+						</div>
+						<form onSubmit={(e) => e.preventDefault()} id="emailForm">
+							<div className="grid w-full items-center gap-4 mt-4">
 								<div className="flex flex-col space-y-1.5">
 									<Label htmlFor="message" className="text-custom-mate">
 										Message
 									</Label>
 									<Textarea
 										id="message"
+										value={message}
+										onChange={(e) => setMessage(e.target.value)}
 										placeholder="Type your message here."
 										rows={5}
 										className="resize-none text-custom-mate"
@@ -218,47 +192,14 @@ function Email() {
 					</CardContent>
 					<CardFooter className="flex gap-2 justify-end">
 						<Button variant="outline">Clear</Button>
-						<Button className="bg-base-900 border border-base-900 hover:border-custom-mate transition-all duration-300 ease-in-out">
+						<Button
+							className="bg-base-900 border border-base-900 hover:border-custom-mate transition-all duration-300 ease-in-out"
+							onClick={handleSendMessage}
+						>
 							Send email
 						</Button>
 					</CardFooter>
 				</Card>
-			</div>
-
-			<div className="flex justify-center">
-				<div className="w-1/2">
-					<div>
-						{/* Display users */}
-						{users.map((user) => (
-							<div key={user._id}>
-								<Input
-									type="checkbox"
-									onChange={() => handleSelectUser(user.email_address)}
-								/>
-								<span>{`${user.first_name} ${user.last_name} (${user.username}) - ${user.email_address}`}</span>
-							</div>
-						))}
-					</div>
-
-					<form
-						onSubmit={(e) => e.preventDefault()}
-						className="flex flex-col gap-4"
-					>
-						<textarea
-							value={message}
-							onChange={(e) => setMessage(e.target.value)}
-							placeholder="Write your message"
-							rows={5}
-							className="resize-none text-base-900 rounded-lg"
-						/>
-						<Input
-							type="file"
-							onChange={(e) => setImage(e.target.files?.[0] || null)}
-							accept="image/*"
-						/>
-						<button onClick={handleSendMessage}>Send Message</button>
-					</form>
-				</div>
 			</div>
 		</div>
 	);
